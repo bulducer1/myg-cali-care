@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
+import logoMyg from "@/assets/logo-myg.png";
 
 const WHATSAPP_URL = "https://wa.me/573027284459";
 
