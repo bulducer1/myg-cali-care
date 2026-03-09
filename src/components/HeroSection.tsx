@@ -44,7 +44,7 @@ const HeroSection = () => (
                 Escríbenos por WhatsApp
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8 text-base">
+            <Button asChild variant="outline" size="lg" className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground rounded-full px-8 text-base font-bold">
               <a href="#servicios">Conoce nuestros servicios</a>
             </Button>
           </div>
