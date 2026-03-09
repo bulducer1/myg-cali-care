@@ -12,10 +12,6 @@ const faqs = [
     a: "Sí, dispensamos medicamentos con fórmula médica siguiendo todos los protocolos establecidos por la normatividad colombiana. Te recomendamos presentar tu fórmula vigente al momento de la compra.",
   },
   {
-    q: "¿Qué métodos de pago aceptan?",
-    a: "Aceptamos efectivo, tarjetas de crédito y débito, transferencias bancarias y pagos por Nequi y Daviplata para tu mayor comodidad.",
-  },
-  {
     q: "¿Cómo puedo consultar la disponibilidad de un medicamento?",
     a: "Puedes escribirnos directamente por WhatsApp al 3027284459 y con gusto verificamos la disponibilidad del producto que necesitas de forma rápida.",
   },

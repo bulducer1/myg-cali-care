@@ -39,8 +39,8 @@ const ServicesSection = () => (
             <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
               <s.icon className="w-7 h-7 text-accent" />
             </div>
-            <h3 className="font-heading font-semibold text-lg text-primary mb-2">{s.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+            <h3 className="font-heading font-semibold text-lg text-foreground mb-2">{s.title}</h3>
+            <p className="text-foreground/70 text-sm leading-relaxed">{s.desc}</p>
           </motion.div>
         ))}
       </div>
