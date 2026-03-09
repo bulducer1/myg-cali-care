@@ -23,9 +23,7 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between h-16 md:h-20 px-4">
         {/* Logo */}
         <a href="#inicio" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-heading font-extrabold text-lg">M</span>
-          </div>
+          <img src={logoMyg} alt="Logo Droguería MyG" className="w-10 h-10 rounded-lg object-contain" />
           <span className="font-heading font-bold text-xl text-primary">
             Droguería <span className="text-accent">MyG</span>
           </span>
