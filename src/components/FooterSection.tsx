@@ -13,7 +13,7 @@ const FooterSection = () => (
               <span className="text-accent-foreground font-heading font-extrabold text-sm">M</span>
             </div>
             <span className="font-heading font-bold text-lg">
-              Droguería <span className="text-accent">MyG</span>
+              Droguerías <span className="text-accent">MyG</span>
             </span>
           </div>
           <p className="text-primary-foreground/70 text-sm leading-relaxed">
