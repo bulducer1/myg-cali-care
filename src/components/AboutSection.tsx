@@ -22,7 +22,7 @@ const AboutSection = () => (
             Sobre <span className="text-accent">Nosotros</span>
           </h2>
           <p className="text-foreground/80 leading-relaxed mb-4">
-            <strong>Droguería MyG</strong> es una cadena de droguerías consolidada en Cali, Colombia, comprometida con la salud y el bienestar de las familias caleñas. Nos distinguimos por nuestra responsabilidad en la dispensación de medicamentos, asegurando siempre productos originales y de la más alta calidad.
+            <strong>Droguerías MyG</strong> es una cadena de droguerías consolidada en Cali, Colombia, comprometida con la salud y el bienestar de las familias caleñas. Nos distinguimos por nuestra responsabilidad en la dispensación de medicamentos, asegurando siempre productos originales y de la más alta calidad.
           </p>
           <p className="text-foreground/80 leading-relaxed mb-4">
             Nuestro equipo de profesionales ofrece asesoría farmacéutica confiable, atención personalizada y un servicio ético que ha generado la confianza de miles de clientes en la ciudad. Somos más que una droguería: somos un aliado en el cuidado de tu salud.
