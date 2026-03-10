@@ -15,7 +15,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Pharmacy",
-  name: "Droguería MyG",
+  name: "Droguerías MyG",
   image: "",
   address: {
     "@type": "PostalAddress",
