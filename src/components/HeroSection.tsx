@@ -28,8 +28,8 @@ const HeroSection = () => (
           </div>
 
           <h1 className="font-heading font-extrabold text-4xl md:text-5xl lg:text-6xl text-primary-foreground leading-tight mb-6">
-            Tu salud es nuestra{" "}
-            <span className="text-accent">prioridad</span>
+            Nuestra prioridad es tu{" "}
+            <span className="text-accent">confianza</span>
           </h1>
 
           <p className="text-primary-foreground/85 text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
