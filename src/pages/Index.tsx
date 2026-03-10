@@ -15,7 +15,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Pharmacy",
-  name: "Droguería MyG",
+  name: "Droguerías MyG",
   image: "",
   address: {
     "@type": "PostalAddress",
@@ -38,16 +38,16 @@ const jsonLd = {
 const Index = () => (
   <>
     <Helmet>
-      <title>Droguería MyG | Tu Droguería de Confianza en Cali, Colombia</title>
+      <title>Droguerías MyG | Tu Droguería de Confianza en Cali, Colombia</title>
       <meta
         name="description"
-        content="Droguería MyG en Cali. Medicamentos originales, asesoría farmacéutica y atención personalizada en Manuela Beltrán. Tu farmacia de confianza cerca de ti."
+        content="Droguerías MyG en Cali. Medicamentos originales, asesoría farmacéutica y atención personalizada en Manuela Beltrán. Tu farmacia de confianza cerca de ti."
       />
-      <meta name="keywords" content="droguería en Cali, droguería en Manuela Beltrán, medicamentos en Cali, farmacia cerca en Cali, droguería MyG" />
+      <meta name="keywords" content="droguerías en Cali, droguería en Manuela Beltrán, medicamentos en Cali, farmacia cerca en Cali, droguerías MyG" />
       <link rel="canonical" href="https://drogueriamyg.com" />
       <meta name="robots" content="index, follow" />
-      <meta property="og:title" content="Droguería MyG - Medicamentos y Farmacia en Cali" />
-      <meta property="og:description" content="Tu droguería de confianza en Cali. Medicamentos originales y atención profesional." />
+      <meta property="og:title" content="Droguerías MyG - Medicamentos y Farmacia en Cali" />
+      <meta property="og:description" content="Tu cadena de droguerías de confianza en Cali. Medicamentos originales y atención profesional." />
       <meta property="og:type" content="website" />
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
     </Helmet>

@@ -9,7 +9,7 @@ const HeroSection = () => (
   <section id="inicio" className="relative min-h-[90vh] flex items-center overflow-hidden pt-20">
     {/* Background image with overlay */}
     <div className="absolute inset-0">
-      <img src={heroImage} alt="Farmacia moderna en Cali - Droguería MyG" className="w-full h-full object-cover" />
+      <img src={heroImage} alt="Farmacia moderna en Cali - Droguerías MyG" className="w-full h-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/40" />
     </div>
 
@@ -23,7 +23,7 @@ const HeroSection = () => (
           <div className="flex items-center gap-2 mb-6">
             <ShieldCheck className="w-5 h-5 text-accent" />
             <span className="text-primary-foreground/80 font-medium text-sm uppercase tracking-wider">
-              Droguería de confianza en Cali
+              Droguerías de confianza en Cali
             </span>
           </div>
 
@@ -33,7 +33,7 @@ const HeroSection = () => (
           </h1>
 
           <p className="text-primary-foreground/85 text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
-            En Droguería MyG te brindamos atención profesional, ética y personalizada. 
+            En Droguerías MyG te brindamos atención profesional, ética y personalizada. 
             Medicamentos originales y asesoría farmacéutica confiable para ti y tu familia en Cali.
           </p>
 
