@@ -3,22 +3,22 @@ import { motion } from "framer-motion";
 
 const locations = [
   {
-    name: "Sede Manuela Beltrán",
+    name: "Droguería MyG",
     address: "Carrera 26J #105-05",
     barrio: "Barrio Manuela Beltrán, Cali",
     active: true,
   },
   {
-    name: "Próximamente",
-    address: "Nueva sede en Cali",
-    barrio: "Ubicación por confirmar",
-    active: false,
+    name: "Farmacentro MyG",
+    address: "Dirección por confirmar",
+    barrio: "Cali",
+    active: true,
   },
   {
-    name: "Próximamente",
-    address: "Nueva sede en Cali",
-    barrio: "Ubicación por confirmar",
-    active: false,
+    name: "Farma Vital MyG",
+    address: "Dirección por confirmar",
+    barrio: "Cali",
+    active: true,
   },
 ];
 
