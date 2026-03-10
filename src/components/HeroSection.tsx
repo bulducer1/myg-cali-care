@@ -23,7 +23,7 @@ const HeroSection = () => (
           <div className="flex items-center gap-2 mb-6">
             <ShieldCheck className="w-5 h-5 text-accent" />
             <span className="text-primary-foreground/80 font-medium text-sm uppercase tracking-wider">
-              Droguería de confianza en Cali
+              Droguerías de confianza en Cali
             </span>
           </div>
 
