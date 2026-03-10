@@ -57,10 +57,10 @@ const FooterSection = () => (
             WhatsApp
           </a>
           <div className="flex gap-3 mt-2">
-            <a href="#" className="text-primary-foreground/60 hover:text-accent transition-colors" aria-label="Facebook">
+            <a href="https://www.facebook.com/profile.php?id=100092547113303" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/60 hover:text-accent transition-colors" aria-label="Facebook">
               <Facebook className="w-5 h-5" />
             </a>
-            <a href="#" className="text-primary-foreground/60 hover:text-accent transition-colors" aria-label="Instagram">
+            <a href="https://www.instagram.com/drogueriamyg" target="_blank" rel="noopener noreferrer" className="text-primary-foreground/60 hover:text-accent transition-colors" aria-label="Instagram">
               <Instagram className="w-5 h-5" />
             </a>
           </div>
