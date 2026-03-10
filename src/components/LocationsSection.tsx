@@ -69,7 +69,7 @@ const LocationsSection = () => (
       <div className="rounded-xl overflow-hidden shadow-md border border-border">
         <iframe
           title="Ubicación Droguerías MyG - Manuela Beltrán, Cali"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.5!2d-76.4950!3d3.4750!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zCarrera+26J+%23105-05+Manuela+Beltr%C3%A1n+Cali!5e0!3m2!1ses!2sco!4v1709000000000"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500!2d-76.4743474!3d3.422335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1709000000000"
           width="100%"
           height="350"
           style={{ border: 0 }}
