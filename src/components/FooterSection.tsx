@@ -17,7 +17,7 @@ const FooterSection = () => (
             </span>
           </div>
           <p className="text-primary-foreground/70 text-sm leading-relaxed">
-            Tu droguería de confianza en Cali, Colombia. Medicamentos originales y atención profesional.
+            Tu cadena de droguerías de confianza en Cali, Colombia. Medicamentos originales y atención profesional.
           </p>
         </div>
 
