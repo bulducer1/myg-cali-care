@@ -28,7 +28,7 @@ const AboutSection = () => (
             Nuestro equipo de profesionales ofrece asesoría farmacéutica confiable, atención personalizada y un servicio ético que ha generado la confianza de miles de clientes en la ciudad. Somos más que unas droguerías: somos un aliado en el cuidado de tu salud.
           </p>
           <p className="text-foreground/80 leading-relaxed">
-            Con presencia en barrios estratégicos de Cali, trabajamos día a día para ser la droguería de referencia en la comunidad, ofreciendo cercanía, calidad y precios justos.
+            Con presencia en barrios estratégicos de Cali, trabajamos día a día para ser las droguerías de referencia en la comunidad, ofreciendo cercanía, calidad y precios justos.
           </p>
         </motion.div>
 

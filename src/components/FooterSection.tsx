@@ -69,7 +69,7 @@ const FooterSection = () => (
 
       <div className="border-t border-primary-foreground/10 pt-6 text-center">
         <p className="text-primary-foreground/50 text-xs">
-          © {new Date().getFullYear()} Droguería MyG. Todos los derechos reservados. Cali, Colombia.
+          © {new Date().getFullYear()} Droguerías MyG. Todos los derechos reservados. Cali, Colombia.
         </p>
       </div>
     </div>

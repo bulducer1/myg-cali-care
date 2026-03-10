@@ -13,7 +13,7 @@ const CTASection = () => (
         viewport={{ once: true }}
       >
         <h2 className="font-heading font-bold text-2xl md:text-3xl text-primary-foreground mb-4">
-          Más que una droguería, somos un aliado en el cuidado de tu salud.
+          Más que unas droguerías, somos un aliado en el cuidado de tu salud.
         </h2>
         <p className="text-primary-foreground/75 mb-8 max-w-xl mx-auto">
           Consulta disponibilidad, precios y recibe asesoría farmacéutica directamente por WhatsApp.

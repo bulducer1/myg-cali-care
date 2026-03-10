@@ -33,7 +33,7 @@ const HeroSection = () => (
           </h1>
 
           <p className="text-primary-foreground/85 text-lg md:text-xl leading-relaxed mb-8 max-w-xl">
-            En Droguería MyG te brindamos atención profesional, ética y personalizada. 
+            En Droguerías MyG te brindamos atención profesional, ética y personalizada. 
             Medicamentos originales y asesoría farmacéutica confiable para ti y tu familia en Cali.
           </p>
 
