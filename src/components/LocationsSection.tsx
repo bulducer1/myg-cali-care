@@ -10,14 +10,14 @@ const locations = [
   },
   {
     name: "Farmacentro MyG",
-    address: "Dirección por confirmar",
-    barrio: "Cali",
+    address: "CR 90 Oeste 3C 12",
+    barrio: "Barrio Las Palmas, Santiago de Cali",
     active: true,
   },
   {
     name: "Farma Vital MyG",
-    address: "Dirección por confirmar",
-    barrio: "Cali",
+    address: "Cl. 4 Oe. #74G-78",
+    barrio: "La Luisa, Cali, Valle del Cauca",
     active: true,
   },
 ];
