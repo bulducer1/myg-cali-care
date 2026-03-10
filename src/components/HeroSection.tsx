@@ -1,7 +1,7 @@
 import { MessageCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/hero-pharmacy.jpg";
+import heroImage from "@/assets/hero-pharmacy.png";
 
 const WHATSAPP_URL = "https://wa.me/573027284459";
 
