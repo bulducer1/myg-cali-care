@@ -6,19 +6,16 @@ const locations = [
     name: "Droguería MyG",
     address: "Carrera 26J #105-05",
     barrio: "Barrio Manuela Beltrán, Cali",
-    active: true,
   },
   {
     name: "Farmacentro MyG",
     address: "CR 90 Oeste 3C 12",
     barrio: "Barrio Las Palmas, Santiago de Cali",
-    active: true,
   },
   {
     name: "Farma Vital MyG",
     address: "Cl. 4 Oe. #74G-78",
     barrio: "La Luisa, Cali, Valle del Cauca",
-    active: true,
   },
 ];
 
@@ -29,17 +26,14 @@ const LocationsSection = () => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mb-12"
+        className="text-center mb-10"
       >
         <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary mb-4">
           Nuestras <span className="text-accent">Sedes</span>
         </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Encuéntranos en puntos estratégicos de Cali para estar siempre cerca de ti.
-        </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-3 gap-6 mb-10">
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
         {locations.map((loc, i) => (
           <motion.div
             key={i}
@@ -47,25 +41,18 @@ const LocationsSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className={`rounded-xl p-6 border text-center ${
-              loc.active
-                ? "bg-primary text-primary-foreground border-primary shadow-lg"
-                : "bg-secondary border-border opacity-70"
-            }`}
+            className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card"
           >
-            <MapPin className={`w-8 h-8 mx-auto mb-3 ${loc.active ? "text-accent" : "text-muted-foreground"}`} />
-            <h3 className="font-heading font-semibold text-lg mb-1">{loc.name}</h3>
-            <p className={`text-sm ${loc.active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
-              {loc.address}
-            </p>
-            <p className={`text-xs mt-1 ${loc.active ? "text-primary-foreground/60" : "text-muted-foreground/60"}`}>
-              {loc.barrio}
-            </p>
+            <MapPin className="w-5 h-5 text-accent mt-0.5 shrink-0" />
+            <div>
+              <h3 className="font-heading font-semibold text-sm text-foreground">{loc.name}</h3>
+              <p className="text-sm text-muted-foreground">{loc.address}</p>
+              <p className="text-xs text-muted-foreground/70">{loc.barrio}</p>
+            </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Google Maps embed */}
       <div className="rounded-xl overflow-hidden shadow-md border border-border">
         <iframe
           title="Ubicación Droguerías MyG - Manuela Beltrán, Cali"
