@@ -9,7 +9,7 @@ const HeroSection = () => (
   <section id="inicio" className="relative min-h-[90vh] flex items-center overflow-hidden pt-20">
     {/* Background image with overlay */}
     <div className="absolute inset-0">
-      <img src={heroImage} alt="Farmacia moderna en Cali - Droguerías MyG" className="w-full h-full object-cover" />
+      <img src={heroImage} alt="Farmacia moderna en Cali - Droguerías MyG" className="w-full h-full object-cover object-right md:object-center" />
       <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/40" />
     </div>
 
