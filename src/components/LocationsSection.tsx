@@ -20,7 +20,7 @@ const locations = [
 ];
 
 const LocationsSection = () => (
-  <section id="sedes" className="section-padding">
+  <section id="sedes" className="section-padding bg-primary">
     <div className="container mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -28,12 +28,12 @@ const LocationsSection = () => (
         viewport={{ once: true }}
         className="text-center mb-10"
       >
-        <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary mb-4">
+        <h2 className="font-heading font-bold text-3xl md:text-4xl text-primary-foreground mb-4">
           Nuestras <span className="text-accent">Sedes</span>
         </h2>
       </motion.div>
 
-      <div className="grid md:grid-cols-3 gap-4 mb-8">
+      <div className="grid md:grid-cols-3 gap-6">
         {locations.map((loc, i) => (
           <motion.div
             key={i}
@@ -41,29 +41,16 @@ const LocationsSection = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card"
+            className="flex items-start gap-4 p-6 rounded-xl bg-primary-foreground/10 backdrop-blur-sm border border-primary-foreground/20"
           >
-            <MapPin className="w-5 h-5 text-accent mt-0.5 shrink-0" />
+            <MapPin className="w-6 h-6 text-accent mt-0.5 shrink-0" />
             <div>
-              <h3 className="font-heading font-semibold text-sm text-foreground">{loc.name}</h3>
-              <p className="text-sm text-muted-foreground">{loc.address}</p>
-              <p className="text-xs text-muted-foreground/70">{loc.barrio}</p>
+              <h3 className="font-heading font-semibold text-base text-primary-foreground">{loc.name}</h3>
+              <p className="text-sm text-primary-foreground/90 font-medium">{loc.address}</p>
+              <p className="text-sm text-primary-foreground/70">{loc.barrio}</p>
             </div>
           </motion.div>
         ))}
-      </div>
-
-      <div className="rounded-xl overflow-hidden shadow-md border border-border">
-        <iframe
-          title="Ubicación Droguerías MyG - Manuela Beltrán, Cali"
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500!2d-76.4743474!3d3.422335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sco!4v1709000000000"
-          width="100%"
-          height="350"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
       </div>
     </div>
   </section>
