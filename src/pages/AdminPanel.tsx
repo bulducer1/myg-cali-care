@@ -203,8 +203,8 @@ const AdminPanel = () => {
       await supabase.storage.from("receipts").remove(paths);
     }
 
-    // Delete all entries
-    await supabase.rpc("clear_raffle_entries", { _raffle_id: selectedRaffle });
+    // Delete all entries via direct delete
+    await supabase.from("raffle_entries").delete().eq("raffle_id", selectedRaffle);
 
     setEntries([]);
     setClearing(false);
