@@ -14,27 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
       raffle_entries: {
         Row: {
           created_at: string
+          first_name: string
           full_name: string
           id: number
+          last_name: string
           phone: string
           raffle_id: string
           receipt_path: string
         }
         Insert: {
           created_at?: string
+          first_name: string
           full_name: string
           id?: number
+          last_name: string
           phone: string
           raffle_id: string
           receipt_path: string
         }
         Update: {
           created_at?: string
+          first_name?: string
           full_name?: string
           id?: number
+          last_name?: string
           phone?: string
           raffle_id?: string
           receipt_path?: string
@@ -124,8 +148,10 @@ export type Database = {
         Args: { _raffle_id: string }
         Returns: {
           created_at: string
+          first_name: string
           full_name: string
           id: number
+          last_name: string
           phone: string
           raffle_id: string
           receipt_path: string
@@ -144,6 +170,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin_email: { Args: { _email: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
