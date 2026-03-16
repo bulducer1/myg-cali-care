@@ -1,16 +1,26 @@
 import { useState, useEffect, useMemo } from "react";
-import { Gift, Upload, CheckCircle, PartyPopper } from "lucide-react";
+import { Gift, Upload, CheckCircle, PartyPopper, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const participantSchema = z.object({
-  full_name: z.string().trim().min(3, "Nombre muy corto").max(100),
+  first_name: z.string().trim().min(2, "Nombre muy corto").max(50),
+  last_name: z.string().trim().min(2, "Apellido muy corto").max(50),
   phone: z.string().trim().min(7, "Teléfono inválido").max(15).regex(/^[0-9+]+$/, "Solo números"),
 });
+
+const ACCEPTED_TYPES = ["image/jpeg", "image/png", "application/pdf"];
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 type Raffle = {
   id: string;
@@ -76,10 +86,11 @@ const compressImage = (file: File, maxWidth = 800, quality = 0.6): Promise<Blob>
 const RaffleSection = () => {
   const [raffle, setRaffle] = useState<Raffle | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [formData, setFormData] = useState({ full_name: "", phone: "" });
+  const [formData, setFormData] = useState({ first_name: "", last_name: "", phone: "" });
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -94,6 +105,29 @@ const RaffleSection = () => {
         setLoading(false);
       });
   }, []);
+
+  const validateFile = (f: File): string | null => {
+    if (!ACCEPTED_TYPES.includes(f.type)) return "Solo se aceptan JPG, PNG o PDF";
+    if (f.size > MAX_FILE_SIZE) return "El archivo no puede superar 2 MB";
+    return null;
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0] ?? null;
+    if (selected) {
+      const fileError = validateFile(selected);
+      if (fileError) {
+        setErrors((prev) => ({ ...prev, file: fileError }));
+        setFile(null);
+        return;
+      }
+      setErrors((prev) => {
+        const { file: _, ...rest } = prev;
+        return rest;
+      });
+    }
+    setFile(selected);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,7 +144,13 @@ const RaffleSection = () => {
     }
 
     if (!file) {
-      setErrors({ file: "Debes subir una foto de tu recibo" });
+      setErrors({ file: "Debes subir tu recibo de compra" });
+      return;
+    }
+
+    const fileError = validateFile(file);
+    if (fileError) {
+      setErrors({ file: fileError });
       return;
     }
 
@@ -118,24 +158,32 @@ const RaffleSection = () => {
     setSubmitting(true);
 
     try {
-      // Compress image
-      const compressed = await compressImage(file);
-      const ext = "jpg";
-      const fileName = `${raffle.id}/${Date.now()}-${formData.phone}.${ext}`;
+      // Prepare file for upload
+      let uploadBlob: Blob = file;
+      let ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      let contentType = file.type;
 
-      // Upload receipt
+      if (file.type.startsWith("image/")) {
+        uploadBlob = await compressImage(file);
+        ext = "jpg";
+        contentType = "image/jpeg";
+      }
+
+      const fileName = `${raffle.id}/${Date.now()}-${validation.data.phone}.${ext}`;
+
       const { error: uploadError } = await supabase.storage
         .from("receipts")
-        .upload(fileName, compressed, { contentType: "image/jpeg" });
+        .upload(fileName, uploadBlob, { contentType });
 
       if (uploadError) throw uploadError;
 
-      // Insert entry
       const { data, error: insertError } = await supabase
         .from("raffle_entries")
         .insert({
           raffle_id: raffle.id,
-          full_name: validation.data.full_name,
+          first_name: validation.data.first_name,
+          last_name: validation.data.last_name,
+          full_name: `${validation.data.first_name} ${validation.data.last_name}`,
           phone: validation.data.phone,
           receipt_path: fileName,
         })
@@ -144,7 +192,7 @@ const RaffleSection = () => {
 
       if (insertError) {
         if (insertError.code === "23505") {
-          setErrors({ phone: "Este número ya está registrado en esta rifa" });
+          setErrors({ phone: "Este número ya está registrado en este sorteo" });
         } else {
           throw insertError;
         }
@@ -158,6 +206,13 @@ const RaffleSection = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const resetForm = () => {
+    setFormData({ first_name: "", last_name: "", phone: "" });
+    setFile(null);
+    setErrors({});
+    setSuccess(null);
   };
 
   if (loading) return null;
@@ -218,77 +273,120 @@ const RaffleSection = () => {
                   <CountdownTimer targetDate={raffle.draw_date} />
                 </div>
 
-                {success ? (
-                  <div className="text-center py-6 bg-secondary/50 rounded-xl">
-                    <CheckCircle className="w-12 h-12 mx-auto text-accent mb-3" />
-                    <p className="font-heading font-bold text-lg text-primary">
-                      ¡Participación registrada!
-                    </p>
-                    <p className="text-muted-foreground mt-1">
-                      Tu número de participante es{" "}
-                      <span className="font-bold text-accent">#{String(success).padStart(3, "0")}</span>
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <Label htmlFor="full_name">Nombre completo</Label>
-                      <Input
-                        id="full_name"
-                        placeholder="Tu nombre completo"
-                        maxLength={100}
-                        value={formData.full_name}
-                        onChange={(e) => setFormData((f) => ({ ...f, full_name: e.target.value }))}
-                      />
-                      {errors.full_name && <p className="text-destructive text-sm mt-1">{errors.full_name}</p>}
-                    </div>
-                    <div>
-                      <Label htmlFor="phone">Teléfono / WhatsApp</Label>
-                      <Input
-                        id="phone"
-                        placeholder="3001234567"
-                        maxLength={15}
-                        value={formData.phone}
-                        onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
-                      />
-                      {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone}</p>}
-                    </div>
-                    <div>
-                      <Label htmlFor="receipt">Foto del recibo de compra</Label>
-                      <div className="mt-1 flex items-center gap-3">
-                        <label
-                          htmlFor="receipt"
-                          className="flex items-center gap-2 cursor-pointer border border-input rounded-md px-4 py-2 text-sm hover:bg-secondary transition-colors"
-                        >
-                          <Upload className="w-4 h-4" />
-                          {file ? file.name.slice(0, 25) : "Seleccionar imagen"}
-                        </label>
-                        <input
-                          id="receipt"
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
-                          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                        />
-                      </div>
-                      {errors.file && <p className="text-destructive text-sm mt-1">{errors.file}</p>}
-                    </div>
-                    {errors.general && <p className="text-destructive text-sm">{errors.general}</p>}
-                    <Button
-                      type="submit"
-                      disabled={submitting}
-                      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full"
-                    >
-                      <Gift className="w-4 h-4 mr-2" />
-                      {submitting ? "Registrando..." : "Participar en la rifa"}
-                    </Button>
-                  </form>
-                )}
+                <Button
+                  onClick={() => { resetForm(); setShowForm(true); }}
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full"
+                >
+                  <Gift className="w-4 h-4 mr-2" />
+                  Participar en el sorteo
+                </Button>
               </div>
             </motion.div>
           </div>
         )}
       </div>
+
+      {/* Participation Dialog */}
+      <Dialog open={showForm} onOpenChange={(open) => { if (!open) setShowForm(false); }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-primary font-heading">
+              {success ? "¡Registro exitoso!" : "Participar en el sorteo"}
+            </DialogTitle>
+          </DialogHeader>
+
+          {success ? (
+            <div className="text-center py-6">
+              <CheckCircle className="w-14 h-14 mx-auto text-accent mb-3" />
+              <p className="font-heading font-bold text-lg text-primary">
+                ¡Participación registrada!
+              </p>
+              <p className="text-muted-foreground mt-1">
+                Tu número de participante es{" "}
+                <span className="font-bold text-accent">#{String(success).padStart(3, "0")}</span>
+              </p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() => setShowForm(false)}
+              >
+                Cerrar
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="first_name">Nombre</Label>
+                <Input
+                  id="first_name"
+                  placeholder="Tu nombre"
+                  maxLength={50}
+                  value={formData.first_name}
+                  onChange={(e) => setFormData((f) => ({ ...f, first_name: e.target.value }))}
+                />
+                {errors.first_name && <p className="text-destructive text-sm mt-1">{errors.first_name}</p>}
+              </div>
+              <div>
+                <Label htmlFor="last_name">Apellido</Label>
+                <Input
+                  id="last_name"
+                  placeholder="Tu apellido"
+                  maxLength={50}
+                  value={formData.last_name}
+                  onChange={(e) => setFormData((f) => ({ ...f, last_name: e.target.value }))}
+                />
+                {errors.last_name && <p className="text-destructive text-sm mt-1">{errors.last_name}</p>}
+              </div>
+              <div>
+                <Label htmlFor="phone">Número de teléfono</Label>
+                <Input
+                  id="phone"
+                  placeholder="3001234567"
+                  maxLength={15}
+                  value={formData.phone}
+                  onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
+                />
+                {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone}</p>}
+              </div>
+              <div>
+                <Label htmlFor="receipt">Recibo de compra (JPG, PNG o PDF - máx 2MB)</Label>
+                <div className="mt-1">
+                  <label
+                    htmlFor="receipt"
+                    className="flex items-center gap-2 cursor-pointer border border-input rounded-md px-4 py-3 text-sm hover:bg-secondary transition-colors"
+                  >
+                    {file?.type === "application/pdf" ? (
+                      <FileText className="w-5 h-5 text-muted-foreground" />
+                    ) : (
+                      <Upload className="w-5 h-5 text-muted-foreground" />
+                    )}
+                    <span className="text-muted-foreground">
+                      {file ? file.name.slice(0, 30) : "Seleccionar archivo"}
+                    </span>
+                  </label>
+                  <input
+                    id="receipt"
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.pdf"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                </div>
+                {errors.file && <p className="text-destructive text-sm mt-1">{errors.file}</p>}
+              </div>
+              {errors.general && <p className="text-destructive text-sm">{errors.general}</p>}
+              <Button
+                type="submit"
+                disabled={submitting}
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full"
+              >
+                <Gift className="w-4 h-4 mr-2" />
+                {submitting ? "Registrando..." : "Enviar participación"}
+              </Button>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
