@@ -73,45 +73,70 @@ const AdminPanel = () => {
   const [deleteEntryId, setDeleteEntryId] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  // Check auth on mount
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        const isAdmin = await verifyAdmin(session.user.email || "");
-        if (isAdmin) {
-          setAuthed(true);
-        } else {
-          await supabase.auth.signOut();
-          setLoginError("Tu correo no está autorizado para acceder al panel.");
-        }
-      }
-      setChecking(false);
-    };
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (session) {
-        const isAdmin = await verifyAdmin(session.user.email || "");
-        if (isAdmin) {
-          setAuthed(true);
-          setLoginError("");
-        } else {
-          await supabase.auth.signOut();
-          setLoginError("Tu correo no está autorizado para acceder al panel.");
-        }
-      } else {
-        setAuthed(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
   const verifyAdmin = async (email: string): Promise<boolean> => {
-    const { data } = await supabase.rpc("is_admin_email", { _email: email });
+    const normalizedEmail = email.trim().toLowerCase();
+    if (!normalizedEmail) return false;
+
+    const { data, error } = await supabase.rpc("is_admin_email", { _email: normalizedEmail });
+
+    if (error) {
+      console.error("Error verificando acceso admin:", error);
+      return false;
+    }
+
     return !!data;
   };
+
+  // Check auth on mount
+  useEffect(() => {
+    let isMounted = true;
+
+    const handleSession = async (session: Awaited<ReturnType<typeof supabase.auth.getSession>>["data"]["session"]) => {
+      if (!isMounted) return;
+
+      if (!session) {
+        setAuthed(false);
+        setChecking(false);
+        return;
+      }
+
+      const isAdmin = await verifyAdmin(session.user.email || "");
+
+      if (!isMounted) return;
+
+      if (isAdmin) {
+        setAuthed(true);
+        setLoginError("");
+      } else {
+        await supabase.auth.signOut();
+        if (!isMounted) return;
+        setAuthed(false);
+        setLoginError("Tu correo no está autorizado para acceder al panel.");
+      }
+
+      setChecking(false);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      void handleSession(session);
+    });
+
+    void supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => handleSession(session))
+      .catch((error) => {
+        console.error("Error obteniendo sesión:", error);
+        if (!isMounted) return;
+        setAuthed(false);
+        setChecking(false);
+        setLoginError("No se pudo verificar la sesión. Intenta de nuevo.");
+      });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const handleGoogleLogin = async () => {
     setLoginError("");
