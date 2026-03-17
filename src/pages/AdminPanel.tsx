@@ -116,7 +116,7 @@ const AdminPanel = () => {
   const handleGoogleLogin = async () => {
     setLoginError("");
     const { error } = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: window.location.origin + "/panel-admin-myk",
     });
     if (error) {
       setLoginError("Error al iniciar sesión con Google.");
