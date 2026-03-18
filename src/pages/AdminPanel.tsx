@@ -58,6 +58,7 @@ type Raffle = {
   draw_date: string;
   is_active: boolean;
   created_at: string;
+  prize_image_url: string | null;
 };
 
 const AdminPanel = () => {
