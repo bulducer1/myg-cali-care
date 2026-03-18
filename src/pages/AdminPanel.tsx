@@ -294,32 +294,12 @@ const AdminPanel = () => {
       </header>
 
       <div className="p-4 md:p-8 max-w-6xl mx-auto">
-        {/* Raffle selector */}
-        <h2 className="font-heading font-bold text-xl text-foreground mb-4">Sorteos</h2>
-        <div className="grid gap-3 mb-8">
-          {raffles.map((r) => (
-            <div
-              key={r.id}
-              className={`border rounded-lg p-4 flex items-center justify-between cursor-pointer transition-colors ${
-                selectedRaffle === r.id ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
-              }`}
-              onClick={() => setSelectedRaffle(r.id)}
-            >
-              <div>
-                <h3 className="font-semibold text-foreground">{r.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                  Sorteo: {new Date(r.draw_date).toLocaleDateString()} •{" "}
-                  <span className={r.is_active ? "text-accent" : "text-muted-foreground"}>
-                    {r.is_active ? "Activo" : "Inactivo"}
-                  </span>
-                </p>
-              </div>
-            </div>
-          ))}
-          {!raffles.length && (
-            <p className="text-muted-foreground text-center py-8">No hay sorteos creados.</p>
-          )}
-        </div>
+        <RaffleManager
+          raffles={raffles}
+          selectedRaffle={selectedRaffle}
+          onSelectRaffle={setSelectedRaffle}
+          onRafflesChange={loadRaffles}
+        />
 
         {/* Entries table */}
         {selectedRaffle && (
