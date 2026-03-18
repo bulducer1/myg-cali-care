@@ -154,12 +154,15 @@ const AdminPanel = () => {
     setAuthed(false);
   };
 
+  const loadRaffles = async () => {
+    const { data } = await supabase.rpc("get_all_raffles");
+    if (data) setRaffles(data);
+  };
+
   // Load raffles when authed
   useEffect(() => {
     if (!authed) return;
-    supabase.rpc("get_all_raffles").then(({ data }) => {
-      if (data) setRaffles(data);
-    });
+    loadRaffles();
   }, [authed]);
 
   // Load entries when raffle selected
