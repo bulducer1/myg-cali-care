@@ -38,6 +38,7 @@ import {
   Search,
   FileText,
 } from "lucide-react";
+import RaffleManager from "@/components/admin/RaffleManager";
 
 type Entry = {
   id: number;
@@ -57,6 +58,7 @@ type Raffle = {
   draw_date: string;
   is_active: boolean;
   created_at: string;
+  prize_image_url: string | null;
 };
 
 const AdminPanel = () => {
@@ -153,12 +155,15 @@ const AdminPanel = () => {
     setAuthed(false);
   };
 
+  const loadRaffles = async () => {
+    const { data } = await supabase.rpc("get_all_raffles");
+    if (data) setRaffles(data);
+  };
+
   // Load raffles when authed
   useEffect(() => {
     if (!authed) return;
-    supabase.rpc("get_all_raffles").then(({ data }) => {
-      if (data) setRaffles(data);
-    });
+    loadRaffles();
   }, [authed]);
 
   // Load entries when raffle selected
@@ -290,32 +295,12 @@ const AdminPanel = () => {
       </header>
 
       <div className="p-4 md:p-8 max-w-6xl mx-auto">
-        {/* Raffle selector */}
-        <h2 className="font-heading font-bold text-xl text-foreground mb-4">Sorteos</h2>
-        <div className="grid gap-3 mb-8">
-          {raffles.map((r) => (
-            <div
-              key={r.id}
-              className={`border rounded-lg p-4 flex items-center justify-between cursor-pointer transition-colors ${
-                selectedRaffle === r.id ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
-              }`}
-              onClick={() => setSelectedRaffle(r.id)}
-            >
-              <div>
-                <h3 className="font-semibold text-foreground">{r.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                  Sorteo: {new Date(r.draw_date).toLocaleDateString()} •{" "}
-                  <span className={r.is_active ? "text-accent" : "text-muted-foreground"}>
-                    {r.is_active ? "Activo" : "Inactivo"}
-                  </span>
-                </p>
-              </div>
-            </div>
-          ))}
-          {!raffles.length && (
-            <p className="text-muted-foreground text-center py-8">No hay sorteos creados.</p>
-          )}
-        </div>
+        <RaffleManager
+          raffles={raffles}
+          selectedRaffle={selectedRaffle}
+          onSelectRaffle={setSelectedRaffle}
+          onRafflesChange={loadRaffles}
+        />
 
         {/* Entries table */}
         {selectedRaffle && (
