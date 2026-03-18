@@ -38,6 +38,7 @@ import {
   Search,
   FileText,
 } from "lucide-react";
+import RaffleManager from "@/components/admin/RaffleManager";
 
 type Entry = {
   id: number;
