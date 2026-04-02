@@ -39,6 +39,8 @@ import {
   FileText,
 } from "lucide-react";
 import RaffleManager from "@/components/admin/RaffleManager";
+import ReceiptGallery from "@/components/admin/ReceiptGallery";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Entry = {
   id: number;
@@ -302,23 +304,15 @@ const AdminPanel = () => {
           onRafflesChange={loadRaffles}
         />
 
-        {/* Entries table */}
+        {/* Entries with tabs */}
         {selectedRaffle && (
-          <>
+          <Tabs defaultValue="participants" className="mt-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
-              <h2 className="font-heading font-bold text-lg text-foreground">
-                Participantes ({entries.length})
-              </h2>
+              <TabsList>
+                <TabsTrigger value="participants">Participantes ({entries.length})</TabsTrigger>
+                <TabsTrigger value="gallery">Galería de Recibos</TabsTrigger>
+              </TabsList>
               <div className="flex gap-2 flex-wrap">
-                <div className="relative">
-                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    placeholder="Buscar por teléfono..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-52 pl-9"
-                  />
-                </div>
                 <Button variant="outline" size="sm" onClick={exportCSV} disabled={!entries.length}>
                   <FileSpreadsheet className="w-4 h-4 mr-1" /> Exportar CSV
                 </Button>
@@ -333,60 +327,77 @@ const AdminPanel = () => {
               </div>
             </div>
 
-            <div className="border rounded-lg overflow-hidden">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Nombre</TableHead>
-                    <TableHead>Apellido</TableHead>
-                    <TableHead>Teléfono</TableHead>
-                    <TableHead>Fecha</TableHead>
-                    <TableHead>Recibo</TableHead>
-                    <TableHead className="w-12"></TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredEntries.map((entry) => (
-                    <TableRow key={entry.id}>
-                      <TableCell className="font-mono">#{String(entry.id).padStart(3, "0")}</TableCell>
-                      <TableCell>{entry.first_name}</TableCell>
-                      <TableCell>{entry.last_name}</TableCell>
-                      <TableCell>{entry.phone}</TableCell>
-                      <TableCell>{new Date(entry.created_at).toLocaleDateString()}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-1">
-                          <Button variant="ghost" size="sm" onClick={() => viewReceipt(entry.receipt_path)}>
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm" onClick={() => downloadReceipt(entry)}>
-                            <Download className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-destructive hover:text-destructive"
-                          onClick={() => setDeleteEntryId(entry.id)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {!filteredEntries.length && (
+            <TabsContent value="participants">
+              <div className="mb-3">
+                <div className="relative w-52">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar por teléfono..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="pl-9"
+                  />
+                </div>
+              </div>
+              <div className="border rounded-lg overflow-hidden">
+                <Table>
+                  <TableHeader>
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
-                        {search ? "No se encontraron resultados" : "No hay participantes"}
-                      </TableCell>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Nombre</TableHead>
+                      <TableHead>Apellido</TableHead>
+                      <TableHead>Teléfono</TableHead>
+                      <TableHead>Fecha</TableHead>
+                      <TableHead>Recibo</TableHead>
+                      <TableHead className="w-12"></TableHead>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredEntries.map((entry) => (
+                      <TableRow key={entry.id}>
+                        <TableCell className="font-mono">#{String(entry.id).padStart(3, "0")}</TableCell>
+                        <TableCell>{entry.first_name}</TableCell>
+                        <TableCell>{entry.last_name}</TableCell>
+                        <TableCell>{entry.phone}</TableCell>
+                        <TableCell>{new Date(entry.created_at).toLocaleDateString()}</TableCell>
+                        <TableCell>
+                          <div className="flex gap-1">
+                            <Button variant="ghost" size="sm" onClick={() => viewReceipt(entry.receipt_path)}>
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" onClick={() => downloadReceipt(entry)}>
+                              <Download className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-destructive hover:text-destructive"
+                            onClick={() => setDeleteEntryId(entry.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {!filteredEntries.length && (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                          {search ? "No se encontraron resultados" : "No hay participantes"}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="gallery">
+              <ReceiptGallery entries={entries} />
+            </TabsContent>
+          </Tabs>
         )}
       </div>
 
