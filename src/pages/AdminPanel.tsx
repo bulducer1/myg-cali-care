@@ -39,6 +39,8 @@ import {
   FileText,
 } from "lucide-react";
 import RaffleManager from "@/components/admin/RaffleManager";
+import ReceiptGallery from "@/components/admin/ReceiptGallery";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Entry = {
   id: number;
