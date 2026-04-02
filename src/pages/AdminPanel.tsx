@@ -298,6 +298,8 @@ const AdminPanel = () => {
       </header>
 
       <div className="p-4 md:p-8 max-w-6xl mx-auto">
+        <FeaturedProductManager />
+
         <RaffleManager
           raffles={raffles}
           selectedRaffle={selectedRaffle}
