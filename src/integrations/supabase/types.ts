@@ -32,6 +32,36 @@ export type Database = {
         }
         Relationships: []
       }
+      featured_products: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          price: number | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          price?: number | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          price?: number | null
+          title?: string
+        }
+        Relationships: []
+      }
       raffle_entries: {
         Row: {
           created_at: string

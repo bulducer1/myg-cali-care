@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import RaffleManager from "@/components/admin/RaffleManager";
 import ReceiptGallery from "@/components/admin/ReceiptGallery";
+import FeaturedProductManager from "@/components/admin/FeaturedProductManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Entry = {
@@ -297,6 +298,8 @@ const AdminPanel = () => {
       </header>
 
       <div className="p-4 md:p-8 max-w-6xl mx-auto">
+        <FeaturedProductManager />
+
         <RaffleManager
           raffles={raffles}
           selectedRaffle={selectedRaffle}
