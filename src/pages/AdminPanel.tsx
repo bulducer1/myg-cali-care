@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import RaffleManager from "@/components/admin/RaffleManager";
 import ReceiptGallery from "@/components/admin/ReceiptGallery";
+import FeaturedProductManager from "@/components/admin/FeaturedProductManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Entry = {
